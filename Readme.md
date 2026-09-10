@@ -13,7 +13,7 @@ Aplicación móvil desarrollada con React Native y Expo para la gestión y regis
 ---
 
 ## Estructura del proyecto
-
+```bash
 RegistroNative/
 ├── assets/             # Recursos estáticos
 ├── .gitignore
@@ -23,7 +23,7 @@ RegistroNative/
 ├── package.json        # Dependencias y scripts
 └── package-lock.json
 
----
+```
 
 ## Instalación y ejecución
 
