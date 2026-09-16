@@ -1,7 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity,ScrollView,KeyboardAvoidingView,TextInput } from 'react-native';
+import { StyleSheet, Text, Alert, View, TouchableOpacity, ScrollView, KeyboardAvoidingView, TextInput } from 'react-native';
+// ---> Importamos el Método de Servicios para registrar datos en la DB
+import { RegistrarProductos } from './src/Services/ProductosDB'
+import { useState } from 'react';
 
 export default function App() {
+
+  const [codigo, setCodigo] = useState('')
+  const [nombre, setNombre] = useState('')
+  const [precio, setPrecio] = useState('')
+  const [stock, setStock] = useState('')
+
+  const GuardarProductos = async (producto) => {
+    if (!nombre || !precio || !stock || !codigo) {
+      Alert.alert('Debe Completar todos los Datos para Continuar')
+      return
+    }
+    try {
+      await RegistrarProductos(
+        {
+          Codigo: codigo,
+          Nombre: nombre,
+          Precio: Number(precio),
+          Stock: Number(stock)
+        })
+      setCodigo('')
+      setNombre('')
+      setPrecio('')
+      setStock('')
+    }
+    catch (Error) {
+      Alert.alert('No se Logro Registrar el producto Correctamente')
+      return
+    }
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.fondo}
@@ -22,6 +55,8 @@ export default function App() {
             placeholder="Ej: PRD-001"
             placeholderTextColor="#9aa5b1"
             maxLength={20}
+            value={codigo}
+            onChangeText={setCodigo}
           />
 
           <Text style={styles.etiqueta}>NOMBRE</Text>
@@ -29,6 +64,8 @@ export default function App() {
             style={styles.input}
             placeholder="Ej: Camiseta algodon"
             placeholderTextColor="#9aa5b1"
+            value={nombre}
+            onChangeText={setNombre}
           />
 
           <Text style={styles.etiqueta}>PRECIO</Text>
@@ -37,6 +74,8 @@ export default function App() {
             placeholder="Ej: 25.50"
             placeholderTextColor="#9aa5b1"
             keyboardType="decimal-pad"
+            value={precio}
+            onChangeText={setPrecio}
           />
 
           <Text style={styles.etiqueta}>STOCK</Text>
@@ -45,6 +84,8 @@ export default function App() {
             placeholder="Ej: 100"
             placeholderTextColor="#9aa5b1"
             keyboardType="number-pad"
+            value={stock}
+            onChangeText={setStock}
           />
 
           <TouchableOpacity style={styles.botonGuardar}>
